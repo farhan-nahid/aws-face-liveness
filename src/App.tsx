@@ -1,6 +1,8 @@
-import { FaceLivenessDetector } from "@aws-amplify/ui-react-liveness";
 import { Amplify } from "aws-amplify";
 import { useEffect, useState } from "react";
+import { FaceLivenessCheck } from "./components/face-liveness-check";
+import { FaceLivenessDetection } from "./components/face-liveness-detection";
+import { API_ENDPOINTS } from "./constants";
 
 import "@aws-amplify/ui-react-liveness/styles.css";
 import "@aws-amplify/ui-react/styles.css";
@@ -17,9 +19,7 @@ function App() {
   useEffect(() => {
     const loadCredentials = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8000/api/v1/liveness/credentials"
-        );
+        const response = await fetch(API_ENDPOINTS.CREDENTIALS);
 
         if (!response.ok) {
           throw new Error("Failed to fetch credentials");
@@ -73,12 +73,9 @@ function App() {
     setLivenessResult(null);
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/liveness/create-liveness-session",
-        {
-          method: "POST",
-        }
-      );
+      const response = await fetch(API_ENDPOINTS.CREATE_SESSION, {
+        method: "POST",
+      });
 
       if (!response.ok) {
         throw new Error("Failed to create liveness session");
@@ -105,9 +102,7 @@ function App() {
     if (!sessionId) return;
 
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/v1/liveness/get-face-liveness-session-result/${sessionId}/0148ad01-c138-42f5-9609-01d3989e92f1?threshold=80`
-      );
+      const response = await fetch(API_ENDPOINTS.GET_RESULT(sessionId, 80));
 
       if (!response.ok) {
         throw new Error("Failed to fetch liveness result");
@@ -133,59 +128,19 @@ function App() {
             {error && <p className="error-text">{error}</p>}
           </div>
         ) : isLivenessActive && sessionId ? (
-          <>
-            <div className="liveness-header">
-              <h2>Face Liveness Detection</h2>
-              <button
-                className="cancel-button"
-                onClick={() => setIsLivenessActive(false)}
-              >
-                Cancel
-              </button>
-            </div>
-
-            <div className="liveness-container">
-              <FaceLivenessDetector
-                sessionId={sessionId}
-                region="us-east-1"
-                onAnalysisComplete={handleAnalysisComplete}
-                onError={(err: any) => {
-                  console.error("Liveness error:", err);
-                  setError(err.message || "Liveness failed");
-                  setIsLivenessActive(false);
-                }}
-              />
-            </div>
-          </>
+          <FaceLivenessDetection
+            sessionId={sessionId}
+            onAnalysisComplete={handleAnalysisComplete}
+            setIsLivenessActive={setIsLivenessActive}
+            setError={setError}
+          />
         ) : (
-          <div className="card">
-            <h2>Face Liveness Check</h2>
-            <p>
-              Verify your identity using secure, real-time facial liveness
-              detection.
-            </p>
-
-            <div style={{ marginTop: "1.75rem" }}>
-              <button
-                className="primary-button"
-                onClick={createLivenessSession}
-                disabled={loading}
-              >
-                {loading ? "Starting Session..." : "Start Liveness Check"}
-              </button>
-            </div>
-
-            {error && <p className="error-text">{error}</p>}
-
-            {livenessResult && (
-              <div className="result-container">
-                <h3>Liveness Result</h3>
-                <pre className="result-json">
-                  {JSON.stringify(livenessResult, null, 2)}
-                </pre>
-              </div>
-            )}
-          </div>
+          <FaceLivenessCheck
+            loading={loading}
+            createLivenessSession={createLivenessSession}
+            error={error}
+            livenessResult={livenessResult}
+          />
         )}
       </div>
     </div>
