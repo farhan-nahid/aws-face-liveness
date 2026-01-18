@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const loadCredentials = async () => {
       try {
-        const response = await fetch(API_ENDPOINTS.CREDENTIALS);
+        const response = await fetch(API_ENDPOINTS.GET_CREDENTIALS);
 
         if (!response.ok) {
           throw new Error("Failed to fetch credentials");
@@ -53,7 +53,7 @@ function App() {
                 clearCredentialsAndIdentityId: () => {},
               },
             },
-          }
+          },
         );
 
         setCredentialsLoaded(true);

@@ -12,11 +12,9 @@ export function FaceLivenessCheck(props: any) {
       const fetchUserInfo = async () => {
         setPending(true);
         try {
-          const response = await fetch(API_ENDPOINTS.USER_INFO(userId), {
+          const response = await fetch(API_ENDPOINTS.GET_USER_INFO(userId), {
             method: "GET",
-            headers: {
-              "secret-key": HR_API_SECRET_KEY,
-            },
+            headers: { "secret-key": HR_API_SECRET_KEY },
           });
 
           if (!response.ok) {
