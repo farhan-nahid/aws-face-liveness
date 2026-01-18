@@ -2,14 +2,11 @@ export const API_BASE_URL = "http://localhost:8000/api/v1/liveness";
 export const HR_API_URL = "https://api.attendancekeeper.net/hr/api/v1";
 export const AWS_REGION = "us-east-1";
 export const HR_API_SECRET_KEY = "6433220e-5f0b-4238-bb11-046f589e9149";
+export const COMPANY_ID = "0148ad01-c138-42f5-9609-01d3989e92f1"
 
 export const API_ENDPOINTS = {
-  CREDENTIALS: `${API_BASE_URL}/credentials`,
-  CREATE_SESSION: `${API_BASE_URL}/create-liveness-session`,
-  GET_RESULT: (sessionId: string, threshold: number) =>
-    `${API_BASE_URL}/get-face-liveness-session-result/${sessionId}/0148ad01-c138-42f5-9609-01d3989e92f1?threshold=${threshold}`,
-  USER_INFO: (userId: string) =>
-    `${HR_API_URL}/employee/single-employee/${userId}/`,
-} as const;
-
-
+  CREATE_SESSION: `${API_BASE_URL}`,
+  GET_CREDENTIALS: `${API_BASE_URL}/temporary-credentials`,
+  GET_RESULT: (sessionId: string, threshold: number) => `${API_BASE_URL}/${sessionId}/${COMPANY_ID}?threshold=${threshold}`,
+  GET_USER_INFO: (userId: string) => `${HR_API_URL}/employee/single-employee/${userId}/`,
+};
