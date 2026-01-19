@@ -11,8 +11,18 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   background-color: #f5f7fb;
   color: #1f2937;
 }
@@ -26,8 +36,8 @@ body {
 ========================= */
 .app-container {
   min-height: 100vh;
-  min-width: 100vw;
-  padding: 2.5rem 1rem;
+  width: 100%;
+  padding: clamp(1rem, 4vw, 3rem);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,13 +54,15 @@ body {
 .card {
   background: #ffffff;
   border-radius: 14px;
-  padding: 2.25rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0, 0, 0, 0.03);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.05),
+    0 4px 10px rgba(0, 0, 0, 0.03);
 }
 
 .card h2 {
   margin: 0 0 0.5rem;
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
   font-weight: 600;
 }
 
@@ -58,6 +70,7 @@ body {
   margin: 0;
   color: #6b7280;
   line-height: 1.6;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
 }
 
 /* =========================
@@ -67,8 +80,8 @@ button {
   appearance: none;
   border: none;
   border-radius: 10px;
-  padding: 12px 32px;
-  font-size: 16px;
+  padding: clamp(10px, 2.5vw, 14px) clamp(20px, 6vw, 36px);
+  font-size: clamp(14px, 3vw, 16px);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -106,10 +119,12 @@ button:disabled {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  gap: 1rem;
 }
 
 .liveness-header h2 {
   margin: 0;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 /* =========================
@@ -117,11 +132,13 @@ button:disabled {
 ========================= */
 .liveness-container {
   width: 100%;
-  min-height: 600px;
+  min-height: clamp(420px, 70vh, 620px);
   background-color: #ffffff;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06), 0 4px 10px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.06),
+    0 4px 10px rgba(0, 0, 0, 0.04);
 }
 
 /* =========================
@@ -129,13 +146,13 @@ button:disabled {
 ========================= */
 .status-text {
   margin-top: 1rem;
-  font-size: 14px;
+  font-size: clamp(13px, 2.5vw, 14px);
 }
 
 .error-text {
   color: #dc2626;
   margin-top: 1rem;
-  font-size: 14px;
+  font-size: clamp(13px, 2.5vw, 14px);
 }
 
 /* =========================
@@ -147,30 +164,56 @@ button:disabled {
 
 .result-container h3 {
   margin-bottom: 0.75rem;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
   font-weight: 600;
 }
 
 .result-json {
+  max-height: 300px;
+  overflow-y: auto;
   background-color: #0f172a;
   color: #e5e7eb;
-  padding: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
   border-radius: 12px;
-  font-size: 14px;
+  font-size: clamp(12px, 2.5vw, 14px);
   line-height: 1.6;
   overflow-x: auto;
   font-family: "JetBrains Mono", Consolas, Monaco, monospace;
 }
 
 /* =========================
-   Responsive
+   Small Devices (≤ 480px)
 ========================= */
-@media (max-width: 640px) {
-  .card {
-    padding: 1.5rem;
+@media (max-width: 480px) {
+  .liveness-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .liveness-container {
-    min-height: 500px;
+  .cancel-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .primary-button {
+    width: 100%;
+  }
+}
+
+/* =========================
+   Tablets (481px – 1024px)
+========================= */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .centered-container {
+    max-width: 90%;
+  }
+}
+
+/* =========================
+   Large Screens (≥ 1440px)
+========================= */
+@media (min-width: 1440px) {
+  .centered-container {
+    max-width: 900px;
   }
 }
