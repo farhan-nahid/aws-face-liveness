@@ -82,8 +82,9 @@ function App() {
     setLivenessResult(null);
 
     try {
-      const response = await fetch(API_ENDPOINTS.CREATE_SESSION, {
+      const response = await fetch(API_ENDPOINTS.CREATE_LIVENESS_SESSION, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
       });
 
       if (!response.ok) {

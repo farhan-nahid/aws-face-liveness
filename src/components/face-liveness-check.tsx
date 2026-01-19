@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { API_ENDPOINTS, HR_API_SECRET_KEY } from "../constants";
+import { API_ENDPOINTS } from "../constants";
 
 export function FaceLivenessCheck(props: any) {
   const [pending, setPending] = useState(false);
@@ -14,7 +14,7 @@ export function FaceLivenessCheck(props: any) {
         try {
           const response = await fetch(API_ENDPOINTS.GET_USER_INFO(userId), {
             method: "GET",
-            headers: { "secret-key": HR_API_SECRET_KEY },
+            headers: { "secret-key": import.meta.env.VITE_HR_API_SECRET_KEY },
           });
 
           if (!response.ok) {
