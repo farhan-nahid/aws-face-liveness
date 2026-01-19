@@ -5,7 +5,7 @@ export function FaceLivenessCheck(props: any) {
   const [pending, setPending] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
   const { loading, createLivenessSession, error, livenessResult } = props;
-  const userId = livenessResult?.data?.data?.face_recognition?.data?.user_id;
+  const userId = livenessResult?.data?.data?.recognition?.data?.user_id;
 
   useEffect(() => {
     if (userId && !loading) {
