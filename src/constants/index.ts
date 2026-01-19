@@ -1,6 +1,5 @@
 export const API_BASE_URL = "http://localhost:8000/api/v1/liveness";
 export const HR_API_URL = "https://api.attendancekeeper.net/hr/api/v1";
-export const AWS_REGION = "us-east-1";
 export const HR_API_SECRET_KEY = "6433220e-5f0b-4238-bb11-046f589e9149";
 export const COMPANY_ID = "0148ad01-c138-42f5-9609-01d3989e92f1"
 

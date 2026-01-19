@@ -11,6 +11,7 @@ import "./App.css";
 function App() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [region, setRegion] = useState<string>("us-east-1");
   const [error, setError] = useState<string | null>(null);
   const [isLivenessActive, setIsLivenessActive] = useState(false);
   const [livenessResult, setLivenessResult] = useState<any>(null);
@@ -63,6 +64,7 @@ function App() {
           },
         );
 
+        setRegion(creds.region);
         setCredentialsLoaded(true);
       } catch (err: any) {
         console.error("Failed to load credentials:", err);
@@ -136,6 +138,7 @@ function App() {
           </div>
         ) : isLivenessActive && sessionId ? (
           <FaceLivenessDetection
+            region={region}
             sessionId={sessionId}
             onAnalysisComplete={handleAnalysisComplete}
             setIsLivenessActive={setIsLivenessActive}

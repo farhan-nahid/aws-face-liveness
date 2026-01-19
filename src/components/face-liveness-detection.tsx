@@ -1,9 +1,7 @@
 import { FaceLivenessDetector } from "@aws-amplify/ui-react-liveness";
-import { AWS_REGION } from "../constants";
 
 export function FaceLivenessDetection(props: any) {
-  const { sessionId, setIsLivenessActive, setError, onAnalysisComplete } =
-    props;
+  const { region, sessionId, setIsLivenessActive, setError } = props;
 
   return (
     <>
@@ -19,9 +17,9 @@ export function FaceLivenessDetection(props: any) {
 
       <div className="liveness-container">
         <FaceLivenessDetector
+          region={region}
           sessionId={sessionId}
-          region={AWS_REGION}
-          onAnalysisComplete={onAnalysisComplete}
+          onAnalysisComplete={props.onAnalysisComplete}
           onError={(err: any) => {
             console.error("Liveness error:", err);
             setError(err.message || "Liveness detection failed");
