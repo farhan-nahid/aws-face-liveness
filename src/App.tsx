@@ -19,7 +19,14 @@ function App() {
   useEffect(() => {
     const loadCredentials = async () => {
       try {
-        const response = await fetch(API_ENDPOINTS.GET_TEMPORARY_CREDENTIALS);
+        const response = await fetch(
+          API_ENDPOINTS.CREATE_TEMPORARY_CREDENTIALS,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: "liveness-check-app" }),
+          },
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch credentials");

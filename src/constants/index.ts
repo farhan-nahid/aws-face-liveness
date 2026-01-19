@@ -6,7 +6,7 @@ export const COMPANY_ID = "0148ad01-c138-42f5-9609-01d3989e92f1"
 
 export const API_ENDPOINTS = {
   CREATE_SESSION: `${API_BASE_URL}`,
-  GET_TEMPORARY_CREDENTIALS: `${API_BASE_URL}/temporary-credentials`,
+  CREATE_TEMPORARY_CREDENTIALS: `${API_BASE_URL}/temporary-credentials`,
   GET_RESULT: (sessionId: string, threshold: number) => `${API_BASE_URL}/${sessionId}/${COMPANY_ID}?threshold=${threshold}`,
   GET_USER_INFO: (userId: string) => `${HR_API_URL}/employee/single-employee/${userId}/`,
 };
