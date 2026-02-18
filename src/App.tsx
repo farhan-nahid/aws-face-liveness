@@ -6,7 +6,7 @@ import { API_ENDPOINTS } from "./constants";
 
 import "@aws-amplify/ui-react-liveness/styles.css";
 import "@aws-amplify/ui-react/styles.css";
-import "./App.css";
+import "./style.css";
 
 function App() {
   const [sessionId, setSessionId] = useState<string | null>(null);
