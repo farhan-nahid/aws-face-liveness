@@ -123,13 +123,8 @@ function App() {
       setLivenessResult(data);
     } catch (err: any) {
       console.error("Fetch result error:", err);
-      const message =
-        err?.detail?.message ||
-        err?.message ||
-        "Failed to fetch result";
-
-      setError(message);
-      setLivenessError(err?.detail);
+  
+      setLivenessError(err);
     } finally {
       setIsLivenessActive(false);
     }
@@ -147,7 +142,7 @@ function App() {
       );
     }
 
-    if(livenessError?.error){
+    if(livenessError?.status){
       return (
         <div className="card">
           <h2>Liveness Detection Error</h2>
