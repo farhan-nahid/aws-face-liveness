@@ -16,6 +16,7 @@ function App() {
   const [isLivenessActive, setIsLivenessActive] = useState(false);
   const [livenessResult, setLivenessResult] = useState<any>(null);
   const [credentialsLoaded, setCredentialsLoaded] = useState(false);
+  const [livenessError, setLivenessError] = useState<any>({});
 
   useEffect(() => {
     const loadCredentials = async () => {
@@ -113,46 +114,82 @@ function App() {
 
     try {
       const response = await fetch(API_ENDPOINTS.GET_RESULT(sessionId, 80));
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error("Failed to fetch liveness result");
+        throw data;
       }
 
-      const data = await response.json();
       setLivenessResult(data);
     } catch (err: any) {
       console.error("Fetch result error:", err);
-      setError(err.message || "Failed to fetch result");
+      const message =
+        err?.detail?.message ||
+        err?.message ||
+        "Failed to fetch result";
+
+      setError(message);
+      setLivenessError(err?.detail);
     } finally {
       setIsLivenessActive(false);
     }
   };
 
+
+  const renderContent = () => {
+    if (!credentialsLoaded) {
+      return (
+        <div className="card">
+          <h2>Loading AWS Credentials</h2>
+          <p>Please wait while we prepare face liveness detection.</p>
+          {error && <p className="error-text">{error}</p>}
+        </div>
+      );
+    }
+
+    if(livenessError?.error){
+      return (
+        <div className="card">
+          <h2>Liveness Detection Error</h2>
+         <pre className="result-json">
+            {JSON.stringify(livenessError, null, 2)}
+          </pre>
+          <button
+            className="primary-button"
+            onClick={() => setLivenessError({})}
+          >
+            Try Again
+          </button>
+        </div>
+      );
+    }
+
+    if (isLivenessActive && sessionId) {
+      return (
+        <FaceLivenessDetection
+          region={region}
+          sessionId={sessionId}
+          onAnalysisComplete={handleAnalysisComplete}
+          setIsLivenessActive={setIsLivenessActive}
+          setError={setError}
+        />
+      );
+    }
+
+    return (
+      <FaceLivenessCheck
+        loading={loading}
+        createLivenessSession={createLivenessSession}
+        error={error}
+        livenessResult={livenessResult}
+      />
+    );
+  };
+
   return (
     <div className="app-container">
       <div className="centered-container">
-        {!credentialsLoaded ? (
-          <div className="card">
-            <h2>Loading AWS Credentials</h2>
-            <p>Please wait while we prepare face liveness detection.</p>
-            {error && <p className="error-text">{error}</p>}
-          </div>
-        ) : isLivenessActive && sessionId ? (
-          <FaceLivenessDetection
-            region={region}
-            sessionId={sessionId}
-            onAnalysisComplete={handleAnalysisComplete}
-            setIsLivenessActive={setIsLivenessActive}
-            setError={setError}
-          />
-        ) : (
-          <FaceLivenessCheck
-            loading={loading}
-            createLivenessSession={createLivenessSession}
-            error={error}
-            livenessResult={livenessResult}
-          />
-        )}
+        {renderContent()}
       </div>
     </div>
   );
